@@ -21,7 +21,12 @@ let project = Project(
       dependencies: [
         .target(name: "Router"),
         .target(name: "RouterLive")
-      ]
+      ],
+      settings: .settings(
+        base: [
+          "PRODUCT_NAME": "DuckHorde"
+        ]
+      )
     ),
     // TEST Example
     //		.target(
