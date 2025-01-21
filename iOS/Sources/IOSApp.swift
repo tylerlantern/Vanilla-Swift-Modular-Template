@@ -1,17 +1,13 @@
-import RouterImpl
-import RouterInterface
+import Router
+import RouterLive
 import SwiftUI
-import TabContainerFeature
 
 @main
 struct IOSApp: App {
   var body: some Scene {
     WindowGroup {
-      TabContainerView()
-        .environment(
-          \.router,
-          Router.liveValue
-        )
+      Router.liveValue.route(.tabContainer)
+        .environment(\.router, Router.liveValue)
     }
   }
 }

@@ -1,4 +1,4 @@
-import RouterInterface
+import Router
 import SwiftUI
 
 public struct HomeView: View {
@@ -7,16 +7,16 @@ public struct HomeView: View {
   }
 
   @Environment(\.router) var router
-  @State var path = NavigationPath()
+  @State var navPath = NavigationPath()
 
   public init() {}
 
   public var body: some View {
-    NavigationStack(path: self.$path) {
+    NavigationStack(path: self.$navPath) {
       VStack {
         Text("Hello, Home!")
         Button.init {
-          self.path.append(Destination.detail)
+          self.navPath.append(Destination.detail)
         } label: {
           Text("Go to Detail")
         }
@@ -24,7 +24,11 @@ public struct HomeView: View {
       .navigationDestination(for: Destination.self) { destination in
         let route = switch destination {
         case .detail:
-          Route.home(.detail("YEEHA DETAIL"))
+          Route.home(
+            .detail(
+              .root(self.$navPath, "DAMN TAKE")
+            )
+          )
         }
         self.router.route(route)
       }

@@ -1,8 +1,4 @@
-import ChatListFeature
-import ExploreFeature
-import HomeFeature
-import ProfileFeature
-import RouterInterface
+import Router
 import SwiftUI
 
 enum Tab: Equatable {
@@ -22,43 +18,37 @@ public struct TabContainerView: View {
     TabView(
       selection: self.$currentTab
     ) {
-      HomeView()
+      self.router.route(.home(.root))
         .navigationViewStyle(.stack)
         .navigationBarHidden(true)
         .tag(Tab.home)
         .tabItem {
-          Text("Home")
+          Label("Home", systemImage: "house.fill")
         }
 
-      NavigationStack {
-        ExploreView()
-      }
-      .navigationViewStyle(.stack)
-      .navigationBarHidden(true)
-      .tag(Tab.explore)
-      .tabItem {
-        Text("Explore")
-      }
+      self.router.route(.explore(.root))
+        .navigationViewStyle(.stack)
+        .navigationBarHidden(true)
+        .tag(Tab.explore)
+        .tabItem {
+          Label("Explore", systemImage: "magnifyingglass")
+        }
 
-      NavigationStack {
-        ChatListView()
-      }
-      .navigationViewStyle(.stack)
-      .navigationBarHidden(true)
-      .tag(Tab.chatList)
-      .tabItem {
-        Text("Chat")
-      }
+      self.router.route(.chat(.root))
+        .navigationViewStyle(.stack)
+        .navigationBarHidden(true)
+        .tag(Tab.chatList)
+        .tabItem {
+          Label("Chat", systemImage: "bubble.left.and.bubble.right.fill")
+        }
 
-      NavigationStack {
-        ProfileView()
-      }
-      .navigationViewStyle(.stack)
-      .navigationBarHidden(true)
-      .tag(Tab.profile)
-      .tabItem {
-        Text("Profile")
-      }
+      self.router.route(.profile(.root))
+        .navigationViewStyle(.stack)
+        .navigationBarHidden(true)
+        .tag(Tab.profile)
+        .tabItem {
+          Label("Profile", systemImage: "person.crop.circle.fill")
+        }
     }
   }
 }

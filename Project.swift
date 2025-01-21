@@ -1,7 +1,7 @@
 import ProjectDescription
 
 let project = Project(
-  name: "iOS",
+  name: "Clean-Swift-Template",
   targets: [
     .target(
       name: "iOS",
@@ -19,91 +19,88 @@ let project = Project(
       sources: ["iOS/Sources/**"],
       resources: ["iOS/Resources/**"],
       dependencies: [
-        .target(name: "TabContainerFeature"),
-        .target(name: "RouterInterface"),
-        .target(name: "RouterImpl")
+        .target(name: "Router"),
+        .target(name: "RouterLive")
       ]
     ),
     .target(
-      name: "RouterInterface",
+      name: "Router",
       destinations: .iOS,
       product: .framework,
-      bundleId: "io.tuist.RouterInterface",
+      bundleId: "io.tuist.Router",
       infoPlist: .default,
-      sources: ["RouterInterface/Sources/**"],
+      sources: ["Router/Sources/**"],
       dependencies: []
     ),
     .target(
-      name: "RouterImpl",
+      name: "RouterLive",
       destinations: .iOS,
       product: .framework,
-      bundleId: "io.tuist.RouterImpl",
+      bundleId: "io.tuist.RouterLive",
       infoPlist: .default,
-      sources: ["RouterImpl/Sources/**"],
+      sources: ["RouterLive/Sources/**"],
       dependencies: [
-        .target(name: "RouterInterface"),
-        .target(name: "DetailFeature")
-      ]
-    ),
-    .target(
-      name: "TabContainerFeature",
-      destinations: .iOS,
-      product: .framework,
-      bundleId: "io.tuist.TabContainerFeature",
-      infoPlist: .default,
-      sources: ["TabContainerFeature/Sources/**"],
-      dependencies: [
+        .target(name: "Router"),
+        // Features
+        .target(name: "TabContainerFeature"),
         .target(name: "HomeFeature"),
+        .target(name: "DetailFeature"),
         .target(name: "ExploreFeature"),
         .target(name: "ChatListFeature"),
         .target(name: "ProfileFeature"),
-        .target(name: "RouterInterface")
+        .target(name: "CommentFeature"),
+        .target(name: "ExpandedCommentFeature")
       ]
     ),
-    .target(
+    .framework(
+      name: "TabContainerFeature",
+      dependencies: [
+        .target(name: "Router")
+      ]
+    ),
+
+    .framework(
       name: "HomeFeature",
-      destinations: .iOS,
-      product: .framework,
-      bundleId: "io.tuist.HomeFeature",
-      infoPlist: .default,
-      sources: ["HomeFeature/Sources/**"],
-      dependencies: []
+      dependencies: [
+        .target(name: "Router")
+      ]
     ),
-    .target(
+    .framework(
       name: "DetailFeature",
-      destinations: .iOS,
-      product: .framework,
-      bundleId: "io.tuist.DetailFeature",
-      infoPlist: .default,
-      sources: ["DetailFeature/Sources/**"],
-      dependencies: []
+      dependencies: [
+        .target(name: "Router")
+      ]
     ),
-    .target(
+    .framework(
+      name: "CommentFeature",
+      dependencies: [
+        .target(name: "Router")
+      ]
+    ),
+    .framework(
+      name: "ExpandedCommentFeature",
+      dependencies: [
+        .target(name: "Router")
+      ]
+    ),
+
+    .framework(
       name: "ExploreFeature",
-      destinations: .iOS,
-      product: .framework,
-      bundleId: "io.tuist.ExploreFeature",
-      infoPlist: .default,
-      sources: ["ExploreFeature/Sources/**"],
-      dependencies: []
+      dependencies: [
+        .target(name: "Router")
+      ]
     ),
-    .target(
+    .framework(
       name: "ChatListFeature",
-      destinations: .iOS,
-      product: .framework,
-      bundleId: "io.tuist.ChatListFeature",
-      infoPlist: .default,
-      sources: ["ChatListFeature/Sources/**"],
-      dependencies: []
+      dependencies: [
+        .target(name: "Router")
+      ]
     ),
-    .target(
+    .framework(
       name: "ProfileFeature",
-      destinations: .iOS,
-      product: .framework,
-      bundleId: "io.tuist.ProfileFeature",
-      infoPlist: .default,
-      sources: ["ProfileFeature/Sources/**"],
-      dependencies: []
+      dependencies: [
+        .target(name: "Router")
+      ]
     ),
     .target(
       name: "iOSTests",
@@ -117,3 +114,35 @@ let project = Project(
     )
   ]
 )
+
+public extension Target {
+  static func framework(
+    name: String,
+    hasResource: Bool = false,
+    dependencies: [TargetDependency] = []
+  ) -> Target {
+    .target(
+      name: name,
+      destinations: .iOS,
+      product: .framework,
+      bundleId: "io.tuist.\(name)",
+      infoPlist: .default,
+      sources: ["\(name)/Sources/**"],
+      resources: hasResource ? ["\(name)/Resources/**"] : nil,
+      dependencies: dependencies
+    )
+  }
+}
+
+public func productType() -> Product {
+  if case let .string(productType) = Environment.productType {
+    return productType == "static-library" ? .staticLibrary : .framework
+  } else {
+    return .framework
+  }
+}
+
+public enum TargetInclude {
+  case sources
+  case resources
+}
