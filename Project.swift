@@ -4,10 +4,10 @@ let project = Project(
   name: "Clean-Swift-Template",
   targets: [
     .target(
-      name: "iOS",
+      name: "AppCore",
       destinations: .iOS,
       product: .app,
-      bundleId: "io.tuist.iOS",
+      bundleId: "io.tuist.appcore",
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
@@ -16,13 +16,24 @@ let project = Project(
           ]
         ]
       ),
-      sources: ["iOS/Sources/**"],
-      resources: ["iOS/Resources/**"],
+      sources: ["AppCore/Sources/**"],
+      resources: ["AppCore/Resources/**"],
       dependencies: [
         .target(name: "Router"),
         .target(name: "RouterLive")
       ]
     ),
+    // TEST Example
+    //		.target(
+    //			name: "iOSTests",
+    //			destinations: .iOS,
+    //			product: .unitTests,
+    //			bundleId: "io.tuist.iOSTests",
+    //			infoPlist: .default,
+    //			sources: ["iOS/Tests/**"],
+    //			resources: [],
+    //			dependencies: [.target(name: "iOS")]
+    //		)
     .target(
       name: "Router",
       destinations: .iOS,
@@ -101,16 +112,6 @@ let project = Project(
       dependencies: [
         .target(name: "Router")
       ]
-    ),
-    .target(
-      name: "iOSTests",
-      destinations: .iOS,
-      product: .unitTests,
-      bundleId: "io.tuist.iOSTests",
-      infoPlist: .default,
-      sources: ["iOS/Tests/**"],
-      resources: [],
-      dependencies: [.target(name: "iOS")]
     )
   ]
 )

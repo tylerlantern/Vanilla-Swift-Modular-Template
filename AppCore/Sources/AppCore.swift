@@ -3,7 +3,7 @@ import RouterLive
 import SwiftUI
 
 @main
-struct IOSApp: App {
+struct AppCore: App {
   var body: some Scene {
     WindowGroup {
       Router.liveValue.route(.tabContainer)
