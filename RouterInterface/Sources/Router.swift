@@ -34,27 +34,3 @@ extension EnvironmentValues {
     set { self[Router.self] = newValue }
   }
 }
-
-// extension Router: EnvironmentKey {
-//	public static let defaultValue: Router = .init { route in
-//		//    AnyView(Text("Yeeha"))
-//		AnyView(RouteView(route: route))
-//	}
-// }
-// struct RouteView: View {
-//	let route: Route
-//
-//	var body: some View {
-//		Text("Empty Route")
-////		switch route {
-////			case let .home(.detail(name, path, onUpdateName)):
-////				DetailView(path: path, name: name, onUpdateName: onUpdateName)
-////
-////			case .home(.profile(let name)):
-////				ProfileView(name: name)
-////
-////			case let .detail(.alert(name)):
-////				Text(name)
-////		}
-//	}
-// }
