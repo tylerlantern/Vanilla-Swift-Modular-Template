@@ -1,7 +1,7 @@
 import ProjectDescription
 
 let project = Project(
-  name: "Clean-Swift-Template",
+  name: "iOSApp",
   targets: [
     .target(
       name: "AppCore",
