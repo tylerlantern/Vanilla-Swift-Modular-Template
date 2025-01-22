@@ -1,5 +1,7 @@
 import ProjectDescription
 
+let prefixBundleId = "io.tuist."
+
 let project = Project(
   name: "iOSApp",
   targets: [
@@ -7,7 +9,7 @@ let project = Project(
       name: "AppCore",
       destinations: .iOS,
       product: .app,
-      bundleId: "io.tuist.appcore",
+      bundleId: "\(prefixBundleId).appcore",
       infoPlist: .extendingDefault(
         with: [
           "UILaunchScreen": [
@@ -43,7 +45,7 @@ let project = Project(
       name: "Router",
       destinations: .iOS,
       product: .framework,
-      bundleId: "io.tuist.Router",
+      bundleId: "\(prefixBundleId)Router",
       infoPlist: .default,
       sources: ["Router/Sources/**"],
       dependencies: []
@@ -52,7 +54,7 @@ let project = Project(
       name: "RouterLive",
       destinations: .iOS,
       product: .framework,
-      bundleId: "io.tuist.RouterLive",
+      bundleId: "\(prefixBundleId)RouterLive",
       infoPlist: .default,
       sources: ["RouterLive/Sources/**"],
       dependencies: [
@@ -131,7 +133,7 @@ public extension Target {
       name: name,
       destinations: .iOS,
       product: .framework,
-      bundleId: "io.tuist.\(name)",
+      bundleId: "\(prefixBundleId)\(name)",
       infoPlist: .default,
       sources: ["\(name)/Sources/**"],
       resources: hasResource ? ["\(name)/Resources/**"] : nil,
