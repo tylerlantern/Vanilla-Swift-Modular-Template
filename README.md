@@ -16,6 +16,40 @@
    xed .
    ```
 
+# Edit Tuist configulation
+- Run `tuist edit`
+
+# Run Individual Feature to increase fast development
+- Run `tuist generate HomeFeatureApp --open` to create single app with following feature `HomeFeature`
+## Create Instance App
+- Add inside `targets : []`. Try to add under the feature you want
+```
+  //Existing feature
+  .framework(
+    name: "HomeFeature",
+    dependencies: [
+      .target(name: "Router")
+    ]
+  ),
+  // new block of statements to add
+  .featureDemoApp(
+    "HomeFeature",
+    deps: []
+  ),
+```
+- Add scheme at the top of the file
+```
+  let homeDemoScheme = Scheme.scheme(
+    name: "HomeFeatureApp",
+    buildAction: .buildAction(targets: [.target("HomeFeatureApp")]),
+    runAction: .runAction(configuration: .debug)
+  )
+```
+- Add `homeDemoScheme` inside parenthesis `schemes: []`
+- now you can run individual app instance 
+  `tuist generate HomeFeatureApp --open`
+
+
 # Router
 
 The `Router` is the navigation graph that holds all view navigation implementations in `RouterLive`.  

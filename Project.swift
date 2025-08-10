@@ -2,6 +2,12 @@ import ProjectDescription
 
 let prefixBundleId = "io.tuist."
 
+let homeDemoScheme = Scheme.scheme(
+	name: "HomeFeatureApp",
+	buildAction: .buildAction(targets: [.target("HomeFeatureApp")]),
+	runAction: .runAction(configuration: .debug)
+)
+
 let project = Project(
   name: "iOSApp",
   targets: [
@@ -81,10 +87,14 @@ let project = Project(
       name: "HomeFeature",
       dependencies: [
         .target(name: "Router")
-      ]
-    ),
-    .framework(
-      name: "DetailFeature",
+			]
+		),
+		.featureDemoApp(
+			"HomeFeature",
+			deps: []
+		),
+		.framework(
+			name: "DetailFeature",
       dependencies: [
         .target(name: "Router")
       ]
@@ -119,8 +129,11 @@ let project = Project(
       dependencies: [
         .target(name: "Router")
       ]
-    )
-  ]
+    ),
+  ],
+	schemes: [
+		homeDemoScheme
+	]
 )
 
 public extension Target {
@@ -140,7 +153,23 @@ public extension Target {
       dependencies: dependencies
     )
   }
+	
+	static func featureDemoApp(_ feature: String, deps: [TargetDependency] = []) -> Target {
+		.target(
+			name: "\(feature)App",
+			destinations: .iOS,
+			product: .app,
+			bundleId: "io.tuist.\(feature.lowercased()).demo",
+			infoPlist: .extendingDefault(with: ["UILaunchScreen": [:]]),
+			sources: ["\(feature)/DemoApp/**"],
+			resources: [],
+			dependencies: [.target(name: feature)] + deps
+		)
+	}
+	
 }
+
+
 
 public func productType() -> Product {
   if case let .string(productType) = Environment.productType {
