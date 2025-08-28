@@ -1,5 +1,5 @@
-import SwiftUI
 import HomeFeature
+import SwiftUI
 
 @main
 struct HomeFeatureDemoApp: App {
