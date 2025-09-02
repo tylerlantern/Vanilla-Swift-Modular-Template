@@ -44,7 +44,7 @@ final class RateLimiterTests: XCTestCase {
 	}
 	
 	func test_reachLimit() {
-		let limiter = RateLimiter(limit: 2, window: 5)
+let limiter = RateLimiter(limit: 2, window: 5)
 		let t0 = Date(timeIntervalSince1970: 4000)     // old
 		let t1 = Date(timeIntervalSince1970: 4003)     // recent
 		let t2 = Date(timeIntervalSince1970: 4005)
